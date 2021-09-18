@@ -34,13 +34,20 @@ def character_phrases(name):
 
 @app.route("/phrases/<episode>")
 def phrases_episode(episode):
-    phr_ep = sql.phrases_episode(episode)
-    return phr_ep
+    phrases = sql.phrases_episode(episode)
+    return phrases
 
-@app.route("/newphrase", methods=['POST'])
-def newphrase():
-    #dict_ = {
-        ''
+@app.route("/newdata", methods=['POST'])
+def newdata():
+    character = request.form.get('character')
+    phrase = request.form.get('phrase')
+    episode = request.form.get('episode')
+
+    return sql.insert_data(character, phrase, episode)
+
+
+# now we create the endpoints for the sentiment analysis
+
 
 
     
