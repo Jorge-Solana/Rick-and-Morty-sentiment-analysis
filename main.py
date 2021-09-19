@@ -3,6 +3,8 @@ from flask import json
 from flask.json import jsonify, load
 from sqlalchemy.util.langhelpers import method_is_overridden
 import src.sql_tools as sql
+import src.nosql_tools as nosql
+
 
 app = Flask(__name__)
 
@@ -48,9 +50,21 @@ def newdata():
 
 # now we create the endpoints for the sentiment analysis
 
+@app.route("/phrases/<name>/sentiment")
+def char_sentiment(name):
+    char_sent = nosql.character_sentiment(name)
+    return str(char_sent)
 
+# this doesnt work
+@app.route("/phrases/<episode>/sentiment")
+def ep_sentiment(episode):
+    ep_sent = nosql.sentiment_episode(episode)
+    return str(ep_sent)
 
-    
+@app.route("/sentiment")
+def general_sentiment():
+    gen_sent = nosql.general_sentiment()
+    return str(gen_sent)    
 
 
 
