@@ -23,6 +23,8 @@ For the creation of this project, the methodology was as follows:
 
 - Creating a well structured documentation for further users of the API
 
+- Finally creating some visuals in the notebook for a more comprenhensive data
+
 ### Want to use it?
 For the correct use of this API, read the [documentation](http://127.0.0.1:5000/)
 

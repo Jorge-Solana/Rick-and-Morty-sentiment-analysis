@@ -42,8 +42,9 @@ def sentiment_episode(episode):
         float: the polarity
     
     '''
-    query = sql.phrases_episode(f'{episode}')
-    df = pd.DataFrame(query)
+    #query = sql.phrases_episode(f'{episode}')
+    data = requests.get(f'http://127.0.0.1:5000/phrases_ep?episode={episode}')
+    df = pd.DataFrame(data.json())
     all_ = []
     for i, row in df.iterrows():
         blob = TextBlob(f"{row['phrase']}")
@@ -105,41 +106,6 @@ def check (something, string):
         else:
             return False
 
-#function to check when doing POST method
-def check2 (dictionary):
-    '''
-    Checks if a value already exists
-    Args:
-        dictionary(dict): with the keys being (character, episode, phrase)
-    Returns:
-        bool: True if exists False if not exists
-    
-    '''
-    
-    for k,v in dictionary.items():
-        if len(v) == 0:
-            print(f'inssuficient data given, please give {k}')
-    if k == 'character':
-        query = list(engine.execute(f"SELECT Character_name FROM `Character` WHERE Character_name = '{string}'" ))
-        if len(query) > 0:
-            return True
-        else:
-            return False
-    elif k == 'phrase':
-        query = list(engine.execute(f"SELECT Phrase FROM `Phrase` WHERE Phrase = '{string}'" ))
-        if len(query) > 0:
-            return True
-        else:
-            return False
-    elif k == 'episode':
-        query = list(engine.execute(f"SELECT Episode_name FROM Episode WHERE Episode_name = '{string}'" ))
-        if len(query) > 0:
-            return True
-        else:
-            return False
-
-
-
 # dictionaries with our keys and values from our data
 # this is for the insert when we have foreign keys
 
@@ -179,6 +145,9 @@ rick_morty.line = rick_morty.line.str.replace("'", ' ')
 rick_morty.line = rick_morty.line.str.replace('"', ' ')
 rick_morty.line = rick_morty.line.str.replace('%', '%%')
 
+
+
+# this part is mentioned because is just for the insertion of the data whih is already loaded
 '''
 for i, fila in rick_morty.iterrows():
     if check('character', f"{fila['name']}"):

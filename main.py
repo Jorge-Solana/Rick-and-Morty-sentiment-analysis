@@ -39,6 +39,7 @@ def phrase():
     Returns:
         json
     '''
+    print("cacacaca")
     phrase = sql.phrase()
     return phrase
 
@@ -63,11 +64,12 @@ def character_phrases(name):
     Returns:
         json
     '''
+    print(f"showing {name} phrases")
     phrases = sql.character_phrases(name)
     return phrases
 
-@app.route("/phrases?episode")
-def phrases_episode(episode):
+@app.route("/phrases_ep")
+def phrases_episode():
     '''
     Calls the phrases_episode function and returns its json
     Args:
@@ -75,17 +77,21 @@ def phrases_episode(episode):
     Returns:
         json
     '''
-    ep = request.args(episode) ### SOLUCIONALO CON ARGS
-    phrases = sql.phrases_episode(ep)
+    episode = str(request.args.get('episode'))
+    print(episode)
+    phrases = sql.phrases_episode(episode)
     return phrases
 
 @app.route("/newdata", methods=['POST'])
-def newdata():
-    character = request.form.get('character')
-    phrase = request.form.get('phrase')
-    episode = request.form.get('episode')
+def insert_ifnew():
+    dict_={
+        'character': request.form.get('character'),
+        'episode': request.form.get('episode'),
+        'phrase': request.form.get('phrase')
 
-    return sql.insert_data(character, phrase, episode)
+    }
+
+    return sql.insert_ifnew(dict_)
 
 
 # now we create the endpoints for the sentiment analysis
@@ -99,19 +105,21 @@ def char_sentiment(name):
     Returns:
         str: the polarity value
     '''
+    
     char_sent = nosql.character_sentiment(name)
     return str(char_sent)
 
-# this doesnt work
-@app.route("/phrases/<episode>/sentiment")
-def ep_sentiment(episode):
+
+@app.route("/phrases_ep/sentiment")
+def ep_sentiment():
     '''
     Calls the sentiment_episode function and returns its polarity
     Args:
-        episode(str): the name of the episode
+        none
     Returns:
         str: the polarity value
     '''
+    episode = str(request.args.get('episode'))
     ep_sent = nosql.sentiment_episode(episode)
     return str(ep_sent)
 
