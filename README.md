@@ -26,7 +26,7 @@ For the creation of this project, the methodology was as follows:
 - Finally creating some visuals in the notebook for a more comprenhensive data
 
 ### Want to use it?
-For the correct use of this API, read the [documentation](http://127.0.0.1:5000/)
+For the correct use of this API, read the [documentation](https://github.com/Jorge-Solana/Rick-and-Morty-sentiment-analysis/blob/main/documentation.md)
 
 
 ### LIBRARIES USED
