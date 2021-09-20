@@ -4,7 +4,7 @@ from flask.json import jsonify, load
 from sqlalchemy.util.langhelpers import method_is_overridden
 import src.sql_tools as sql
 import src.nosql_tools as nosql
-import markdown.extensions.fenced_code
+import markdown.extensions.fenced_code 
 
 
 app = Flask(__name__)
@@ -13,9 +13,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    readme_file = open("../src/documentation.md", "r")
-    md_template = markdown.markdown( readme_file.read(), extensions = ["fenced_code"]
-    )
+    readme_file = open("documentation.md", "r")
+    md_template = markdown.markdown(readme_file.read(), extensions = ["fenced_code"])
     return md_template
 
 
@@ -67,7 +66,7 @@ def character_phrases(name):
     phrases = sql.character_phrases(name)
     return phrases
 
-@app.route("/phrases/<episode>")
+@app.route("/phrases?episode")
 def phrases_episode(episode):
     '''
     Calls the phrases_episode function and returns its json
@@ -76,7 +75,8 @@ def phrases_episode(episode):
     Returns:
         json
     '''
-    phrases = sql.phrases_episode(episode)
+    ep = request.args(episode) ### SOLUCIONALO CON ARGS
+    phrases = sql.phrases_episode(ep)
     return phrases
 
 @app.route("/newdata", methods=['POST'])

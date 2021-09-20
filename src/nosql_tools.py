@@ -70,7 +70,7 @@ def general_sentiment():
         list_.append(polarity_)
     return sum(list_)/len(list_)
 
-    # CHECK FUNTIONS & LOOPS
+# CHECK FUNTIONS & LOOPS
 
 dbName="rick_morty"
 connectionData=f"mysql+pymysql://root:{sql_pass}@localhost/{dbName}"
@@ -169,7 +169,17 @@ episodes = {
 # loops for inserting our data
 
 rick_morty = pd.read_csv('./RickAndMortyScripts.csv')
+rick_morty.drop(['index'], axis = 1, inplace=True)
+rick_morty = rick_morty[(rick_morty['name'] == 'Rick') | (rick_morty['name'] == 'Morty') | (rick_morty['name'] == 'Jerry') | (rick_morty['name'] == 'Summer') | (rick_morty['name'] == 'Beth')]
 
+
+
+
+rick_morty.line = rick_morty.line.str.replace("'", ' ')
+rick_morty.line = rick_morty.line.str.replace('"', ' ')
+rick_morty.line = rick_morty.line.str.replace('%', '%%')
+
+'''
 for i, fila in rick_morty.iterrows():
     if check('character', f"{fila['name']}"):
         print('This already exists')
@@ -181,7 +191,7 @@ for i, fila in rick_morty.iterrows():
            """
         )
 
-for i, fila in rick_morty.iterrows():
+#for i, fila in rick_morty.iterrows():
     if check ('episode', f"{fila['episode name']}"):
         print('This already exists')
     else:
@@ -192,7 +202,7 @@ for i, fila in rick_morty.iterrows():
            """
         )
 
-for ii, (i, fila) in enumerate(rick_morty.iterrows()):
+#for ii, (i, fila) in enumerate(rick_morty.iterrows()):
     if ii % 100 == 0:
         print(f"voy por el {ii}")
     
@@ -206,4 +216,4 @@ for ii, (i, fila) in enumerate(rick_morty.iterrows()):
             engine.execute(q)            
         except:
             raise 'Couldn`t insert this phrase'
-
+'''

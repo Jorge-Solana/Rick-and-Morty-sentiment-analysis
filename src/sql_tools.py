@@ -1,6 +1,7 @@
 from Config.config import engine
 import pandas as pd
 import ast
+import src.nosql_tools as nosql
 
 def character():
     '''
@@ -77,6 +78,7 @@ def phrases_episode(episode):
         json: all the phrases of an episode in a json format
         #I had do the ast.literal_eval because otherwise the return was a string
     '''
+    #print("Hola")
     query = f"""
     SELECT episode.Episode_name, `phrase`.phrase
     FROM episode
@@ -86,8 +88,9 @@ def phrases_episode(episode):
     
     """
     datos = pd.read_sql_query(query,engine)
+    print(datos)
     str_ = datos.to_json(orient='records')
-    return ast.literal_eval(str_)
+    return str_
 
 # no estoy muy seguro de esta funcion
 def insert_data(data):
@@ -105,7 +108,7 @@ def insert_data(data):
 def insert(dictionary):
     for k,v in dictionary.items():
         if k == 'character':
-            if check2('character', string):
+            if nosql.check2('character', string):
                 return 'This character already exists'
             else:
                 engine.execute(f"""
@@ -113,7 +116,7 @@ def insert(dictionary):
                 """)
         
         elif k == 'phrase':
-            if check2('phrase', string):
+            if nosql.check2('phrase', string):
                 return 'This phrase already exists'
             else:
                 engine.execute(f"""
@@ -121,7 +124,7 @@ def insert(dictionary):
                 """)
         
         elif k == 'episode':
-            if check2('episode', string):
+            if nosql.check2('episode', string):
                 return 'This episode already exists'
             else:
                 engine.execute(f"""
